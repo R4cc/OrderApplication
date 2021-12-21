@@ -1,0 +1,99 @@
+﻿@page "/productproperties"
+@using OrderApplicationServer.Web.Data.Models
+@using OrderApplicationServer.Web.Interfaces
+@using OrderApplicationServer.Web.Pages.Shared
+@inject IUnitOfWork _uow
+
+
+@if(productProperties is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+<h3>Product Properties</h3>
+<button class="btn btn-success" @onclick="OpenCreateModal">Create Property</button>
+<br/>
+<br/>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Notes</th>
+            <th>Controls</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var prod in productProperties)
+        {
+            <tr>
+                <td>@prod.Title</td>
+                <td>@prod.Notes</td>
+                <td><button @onclick="@(() => OpenEditModal(@prod))" class="btn btn-primary">Edit</button>
+                    <button @onclick="@(() => RemoveProperty(@prod))" class="btn btn-danger">Delete</button>
+                </td>
+                
+            </tr>
+        }
+    </tbody>
+</table>
+
+        
+<ProductPropForm @ref="EditModal" prop="@selectedProperty" ButtonText="Save" Title="Edit Property" OnValidSubmit="ModifyProperty"/>
+<ProductPropForm @ref="CreateModal" prop="@newProperty" ButtonText="Create" Title="Create Property" OnValidSubmit="CreateProperty"/>
+}
+
+ 
+
+
+
+@code {
+    private ProductPropForm EditModal { get; set; }
+    private ProductPropForm CreateModal { get; set; }
+    private ProductProperty[]? productProperties;
+    private ProductProperty selectedProperty = new ProductProperty();
+    private ProductProperty newProperty = new ProductProperty();
+
+    protected override async Task OnInitializedAsync()
+    {
+        productProperties = (await _uow.IProductRepo.GetAllProductProperties()).ToArray();
+    }
+
+    private void OpenEditModal(ProductProperty Property)
+    {
+        selectedProperty = Property;
+        EditModal.Open();
+    }
+
+    private void OpenCreateModal()
+    {
+        CreateModal.Open();
+    }
+
+    public async Task LoadProperties()
+    {
+        productProperties = (await _uow.IProductRepo.GetAllProductProperties()).ToArray();
+        EditModal.Close();
+        CreateModal.Close();
+    }
+
+    public async Task ModifyProperty()
+    {
+        await _uow.IProductRepo.UpdateProperty(selectedProperty);
+        await LoadProperties();
+    }
+
+    public async Task CreateProperty()
+    {
+        await _uow.IProductRepo.CreateProperty(newProperty);
+        _uow.SaveChanges();
+        await LoadProperties();
+    }
+
+    public async Task RemoveProperty(ProductProperty property)
+    {
+        await _uow.IProductRepo.RemoveProperty(property);
+        _uow.SaveChanges();
+        await LoadProperties();
+    }
+}

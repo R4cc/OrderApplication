@@ -1,0 +1,173 @@
+﻿@page "/products"
+@using OrderApplicationServer.Web.Data.Models
+@using OrderApplicationServer.Web.Data.ViewModels
+@using OrderApplicationServer.Web.Interfaces
+@inject IUnitOfWork _uow
+
+<AuthorizeView Roles="user">
+    <Authorizing>
+        <p><em>Authorizing...</em></p>
+    </Authorizing>
+<Authorized>
+
+@if(_products is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h3>Products</h3>
+
+    <div class="container">
+        <div class="row">
+            @foreach(var product in _products)
+            {
+                @if(product.ProductId == _selectedProduct)
+                {
+                    <div class="col">
+                        <div class="card border-success" style="width: 250px; height: 400px;">
+                            <img class="card-img-top" src=@product.ImgPath alt="Card image cap" width="200" height="200">
+                            <div class="card-body">
+                            <h5 class="card-title">@product.Title</h5>
+                            <p class="card-text">@(product.Price + "€")</p>
+                            <button class="btn btn-success" @onclick="() => LoadPropertiesFromProdId(product.ProductId)">Show Properties</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="col">
+                        <div class="card" style="width: 250px; height: 400px;">
+                            <img class="card-img-top" src=@product.ImgPath alt="Card image cap" width="200" height="200">
+                            <div class="card-body">
+                            <h5 class="card-title">@product.Title</h5>
+                            <p class="card-text">@(product.Price + "€")</p>
+                                <div style="position: absolute; bottom: 0;">
+                                    <button class="btn btn-success" @onclick="() => LoadPropertiesFromProdId(product.ProductId)">Show Properties</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+
+    <!-- Current and Available Product Properties -->
+    @if(_productWithProps is not null)
+    {
+        <hr />
+        <br />
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+                <!-- Current Product Properties -->
+                <h3>Product Properties</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Note</th>
+                            <td>Controls</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(var item in _productWithProps.ProductProperties)
+                        {
+                            <tr>
+                                <td>@item.Title</td>
+                                <td>@item.Notes</td>
+                                <td><button class="btn btn-danger oi oi-x" @onclick="() => RemovePropFromProduct(item.ProductPropertyId)"/></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <divs class="col-sm">
+                <!-- Available Product Properties -->
+                <h3>Available Product Properties</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Note</th>
+                            <th>Controls</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            @foreach(var item in _availableProdProperties)
+                            {
+                                @if (!_productWithProps.ProductProperties.Select(p => p.ProductPropertyId).Contains(item.ProductPropertyId))
+                                {
+                                    <tr>
+                                        <td>@item.Title</td>
+                                        <td>@item.Notes</td>
+                                        <td><button class="btn btn-success oi oi-plus" @onclick="() => AddPropToProduct(item.ProductPropertyId)"></button></td>
+                                    </tr>   
+                                }
+                            }
+                    </tbody>
+                </table>
+            </divs>
+            </div>
+        </div>
+    }
+}
+
+</Authorized>
+    <NotAuthorized>
+        Access Denied
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private Product[]? _products;
+    private Product? _productWithProps;
+    private ProductProperty[]? _availableProdProperties;
+    private int _selectedProduct;
+
+    protected async override Task OnInitializedAsync()
+    {
+        await LoadProducts();
+    }
+
+    private async Task LoadProducts()
+    {
+        _products = (await _uow.IProductRepo.GetAll()).ToArray();
+    }
+
+    private async Task LoadPropertiesFromProdId(int id)
+    {
+        _selectedProduct = id;
+        await LoadAllProperties();
+        _productWithProps = await _uow.IProductRepo.GetProduct(id);
+    }
+
+    private async Task LoadAllProperties()
+    {
+        _availableProdProperties = (await _uow.IProductRepo.GetAllProductProperties()).ToArray();
+    }
+
+    private async Task AddPropToProduct(int propId)
+    {
+        var modelToAdd = _availableProdProperties.FirstOrDefault(p => p.ProductPropertyId == propId);
+        int productId = _productWithProps.ProductId;
+
+        await _uow.IProductRepo.AddPropertyToProduct(modelToAdd, productId);
+        await LoadProducts();
+        await LoadPropertiesFromProdId(productId);
+    }
+
+    private async Task RemovePropFromProduct(int propId)
+    {
+        var modelToRemove = _availableProdProperties.FirstOrDefault(p => p.ProductPropertyId == propId);
+        int productId = _productWithProps.ProductId;
+
+        await _uow.IProductRepo.RemovePropertyFromProduct(modelToRemove, productId);
+
+        await LoadProducts();
+        await LoadPropertiesFromProdId(productId);
+    }
+
+}

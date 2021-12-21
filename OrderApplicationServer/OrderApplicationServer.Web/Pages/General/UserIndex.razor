@@ -1,0 +1,207 @@
+﻿@page "/users"
+@using OrderApplicationServer.Web.Data.Models
+@using OrderApplicationServer.Web.Data.ViewModels
+@using OrderApplicationServer.Web.Interfaces
+@inject NavigationManager NavManager
+@inject IUnitOfWork _uow
+
+<AuthorizeView Roles="admin">
+    <Authorizing>
+        <p><em>Authorizing...</em></p>
+    </Authorizing>
+<Authorized>
+
+
+
+@if(_users is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <!-- User List -->
+    <div>
+        <h3>Users</h3>
+        <br/>
+        <div>
+            <button @onclick="NavToRegisterUserView" class="oi oi-plus btn btn-primary"/>
+            <button @onclick="LoadUsers" class="oi oi-reload btn btn-primary"/>
+        </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th><a class="link-primary" @onclick="OrderByName">Name</a></th>
+                        <th>Login Name</th>
+                        <th>Controls</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var item in _users)
+                    {
+                        <!-- make selected table row green-->
+                        @if (@item.UserId == _selectedUser)
+                        {
+                            <tr class="table-success">
+                                <td>@item.UserId</td>
+                                <td>@item.FullName</td>
+                                <td>@item.LoginName</td>
+                                <td><button class="btn btn-success" @onclick="() => LoadFirst10Orders(item.UserId)">Load Orders</button>
+                                <button class="btn btn-danger" @onclick="() => DeleteUser(item.UserId)">Delete</button></td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td>@item.UserId</td>
+                                <td>@item.FullName</td>
+                                <td>@item.LoginName</td>
+                                <td><button class="btn btn-success" @onclick="() => LoadFirst10Orders(item.UserId)">Load Orders</button>
+                                <button class="btn btn-danger" @onclick="() => DeleteUser(item.UserId)">Delete</button></td>
+                            </tr>                    
+                        }
+                    }
+                </tbody>
+            </table>
+    </div>
+
+    <!-- Orders from selected User -->
+    @if(_orders is not null)
+    {
+    <div>
+        <br/>
+        <h3>Orders</h3>
+        <br/>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nr</th>
+                    <th>Date</th>
+                    <th>Controls</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var item in _orders)
+                {
+                    <!-- make selected table row green-->
+                    @if(item.OrderId == _selectedOrder)
+                    {
+                        <tr class="table-success">
+                            <td>@item.OrderId</td>
+                            <td>@item.OrderDate</td>
+                            <td><button class="btn btn-success" @onclick="() => LoadOrderPostitionFromOrderId(item.OrderId)">Load Orderpositions</button></td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>@item.OrderId</td>
+                            <td>@item.OrderDate</td>
+                            <td><button class="btn btn-success" @onclick="() => LoadOrderPostitionFromOrderId(item.OrderId)">Load Orderpositions</button></td>
+                        </tr>
+                    }
+
+                }
+            </tbody>
+        </table>
+    </div>
+
+        @if(_orderPositions is not null)
+        {
+            <!-- Order Positions from selected Order -->
+            <div>
+                <br/>
+                <h3>Order Positions</h3>
+                <br/>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Position ID</th>
+                            <th>Product ID</th>
+                            <th>Item Amount</th>
+                            <th>Price Per Item</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(var pos in _orderPositions)
+                        { 
+                            <tr>
+                                <td>@pos.OrderPositionId</td>
+                                <td>@pos.ProductId</td>
+                                <td>@pos.Amount</td>
+                                <td>@(pos.Price + "€")</td>
+                                <td>@(pos.Price * pos.Amount)€</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    }
+}
+
+</Authorized>
+<NotAuthorized>
+Access Denied
+</NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private UserIndexVM[]? _users;
+    private OrderIndexVM[]? _orders;
+    private OrderPosition[]? _orderPositions;
+
+    private bool _isAcending = true;
+    private string? _selectedUser;
+    private int? _selectedOrder;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadUsers();
+    }
+
+    private async Task OrderByName()
+    {
+        if(_isAcending)
+        {
+            _users = _users.OrderBy(o => o.FullName).ToArray();
+            _isAcending = false;
+        }
+        else
+        {
+            _users = _users.OrderByDescending(o => o.FullName).ToArray();
+            _isAcending = true;
+        }
+    }
+
+    private async Task LoadUsers()
+    {
+        _users = await _uow.IUserRepo.GetAllUserIndexVM();
+
+    }
+
+    private async Task LoadFirst10Orders(string id)
+    {
+        _orderPositions = null;
+        _selectedUser = id;
+        _orders = await _uow.IOrderRepo.GetAllOrderIndexVM();
+    }
+
+    private async Task LoadOrderPostitionFromOrderId(int id)
+    {
+        _selectedOrder = id;
+        _orderPositions = await _uow.IOrderRepo.GetOrderPositionsFromOrderId(id);
+    }
+
+    private async Task DeleteUser(string id)
+    {
+        await _uow.IUserRepo.Delete(id);
+        await LoadUsers();
+    }
+
+    private void NavToRegisterUserView()
+    {
+        NavManager.NavigateTo("register");
+    }
+}
