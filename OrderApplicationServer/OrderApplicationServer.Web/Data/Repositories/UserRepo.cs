@@ -4,6 +4,9 @@ using OrderApplicationServer.Web.Interfaces;
 
 namespace OrderApplicationServer.Web.Data.Repositories
 {
+    /// <summary>
+    /// Gets, Creates, Removes and Updates User Entries in the DB with EF
+    /// </summary>
     public class UserRepo : IUserRepo
     {
         private ApplicationDbContext db;
@@ -13,23 +16,41 @@ namespace OrderApplicationServer.Web.Data.Repositories
             db = _db;
         }
 
+        /// <summary>
+        /// Get all Users
+        /// </summary>
+        /// <returns>IEnumerable of all Users</returns>
         public async Task<IEnumerable<ApplicationUser>> GetAll()
         {
             return db.Users;
         }
 
-        public async Task<ApplicationUser> GetUser(string Id)
+        /// <summary>
+        /// Gets a single User
+        /// </summary>
+        /// <param name="userId">UserID</param>
+        /// <returns>Single User</returns>
+        public async Task<ApplicationUser> GetUser(string userId)
         {
-            var user = db.Users.FirstOrDefault(u => u.Id == Id);
+            var user = db.Users.FirstOrDefault(u => u.Id == userId);
             return user;
         }
 
-        public async Task Remove(string Id)
+        /// <summary>
+        /// Remove User by UserID
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task Remove(string userId)
         {
-            var user = db.Users.FirstOrDefault(u => u.Id == Id);
+            var user = db.Users.FirstOrDefault(u => u.Id == userId);
             db.Users.Remove(user);
         }
 
+        /// <summary>
+        /// Get all Users 
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<UserIndexVM>> GetAllUserIndexVM()
         {
             var user = db.Users.Select(u => new UserIndexVM

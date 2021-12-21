@@ -175,7 +175,7 @@ Access Denied
 
     private async Task LoadUsers()
     {
-        _users = await _uow.IUserRepo.GetAllUserIndexVM();
+        _users = (await _uow.IUserRepo.GetAllUserIndexVM()).ToArray();
 
     }
 
@@ -183,13 +183,13 @@ Access Denied
     {
         _orderPositions = null;
         _selectedUser = id;
-        _orders = await _uow.IOrderRepo.GetAllOrderIndexVM();
+        _orders = (await _uow.IOrderRepo.GetAllOrderIndexVM()).ToArray();
     }
 
     private async Task LoadOrderPostitionFromOrderId(int id)
     {
         _selectedOrder = id;
-        _orderPositions = await _uow.IOrderRepo.GetOrderPositionsFromOrderId(id);
+        _orderPositions = (await _uow.IOrderRepo.GetOrderPositionsFromOrderId(id)).ToArray();
     }
 
     private async Task DeleteUser(string id)
