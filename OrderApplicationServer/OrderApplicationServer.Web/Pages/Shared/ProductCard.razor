@@ -4,8 +4,8 @@
         <img class="card-img-top" src=@product.ImgPath alt="Card image cap" width="200" height="200">
         <div class="card-body">
         <h5 class="card-title">@product.Title</h5>
-        <p class="card-text">@(product.Price + "€")</p>
-            <div style="position: absolute; bottom: 0;">
+           <p class="card-text" style="position: absolute; bottom: 0; margin-bottom: 30%;">@(product.Price + "€")</p>
+            <div style="position: absolute; bottom: 0; margin-bottom: 20px;">
                 <button class="btn btn-success" @onclick="@(() => OnValidSubmit.InvokeAsync(@product.ProductId))">Show Properties</button>
             </div>
         </div>
