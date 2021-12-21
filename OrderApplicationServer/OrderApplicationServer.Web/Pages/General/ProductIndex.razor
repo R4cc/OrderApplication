@@ -2,9 +2,10 @@
 @using OrderApplicationServer.Web.Data.Models
 @using OrderApplicationServer.Web.Data.ViewModels
 @using OrderApplicationServer.Web.Interfaces
+@using OrderApplicationServer.Web.Pages.Shared
 @inject IUnitOfWork _uow
 
-<AuthorizeView Roles="user">
+<AuthorizeView>
     <Authorizing>
         <p><em>Authorizing...</em></p>
     </Authorizing>
@@ -16,39 +17,21 @@
 }
 else
 {
-    <h3>Products</h3>
 
     <div class="container">
-        <div class="row">
+        <div class="row justify-content-md-left">
+        <h3>Products</h3>
+        <hr/>
+
             @foreach(var product in _products)
             {
                 @if(product.ProductId == _selectedProduct)
                 {
-                    <div class="col">
-                        <div class="card border-success" style="width: 250px; height: 400px;">
-                            <img class="card-img-top" src=@product.ImgPath alt="Card image cap" width="200" height="200">
-                            <div class="card-body">
-                            <h5 class="card-title">@product.Title</h5>
-                            <p class="card-text">@(product.Price + "€")</p>
-                            <button class="btn btn-success" @onclick="() => LoadPropertiesFromProdId(product.ProductId)">Show Properties</button>
-                            </div>
-                        </div>
-                    </div>
+                    <ProductCard OnValidSubmit="LoadPropertiesFromProdId" isSelected="true" product=product/>
                 }
                 else
                 {
-                    <div class="col">
-                        <div class="card" style="width: 250px; height: 400px;">
-                            <img class="card-img-top" src=@product.ImgPath alt="Card image cap" width="200" height="200">
-                            <div class="card-body">
-                            <h5 class="card-title">@product.Title</h5>
-                            <p class="card-text">@(product.Price + "€")</p>
-                                <div style="position: absolute; bottom: 0;">
-                                    <button class="btn btn-success" @onclick="() => LoadPropertiesFromProdId(product.ProductId)">Show Properties</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <ProductCard OnValidSubmit="LoadPropertiesFromProdId" isSelected="false" product=product/>
                 }
             }
         </div>
@@ -120,6 +103,7 @@ else
         Access Denied
     </NotAuthorized>
 </AuthorizeView>
+
 
 @code {
     private Product[]? _products;

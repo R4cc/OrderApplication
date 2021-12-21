@@ -5,13 +5,13 @@ namespace OrderApplicationServer.Web.Interfaces
 {
     public interface IOrderRepo
     {
-        Task CreateOrder(Order order);
         Task<IEnumerable<Order>> GetAll();
-        Task<IEnumerable<OrderIndexVM>> GetAllOrderIndexVM();
         Task<Order> GetOrder(int orderId);
-        Task<IEnumerable<OrderPosition>> GetOrderPositionsFromOrderId(int orderId);
-        Task<IEnumerable<Order>> GetOrdersFromUser(string userId);
-        Task RemoveOrder(int orderId);
+        Task CreateOrder(Order order);
         Task UpdateOrder(Order order);
+        Task RemoveOrder(int orderId);
+        Task<IEnumerable<Order>> GetOrdersFromUser(string userId);
+        Task<IEnumerable<OrderPosition>> GetOrderPositionsFromOrderId(int orderId);
+        Task<IEnumerable<OrderIndexVM>> GetAllOrderIndexVM();
     }
 }

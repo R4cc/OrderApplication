@@ -38,7 +38,7 @@ else
     </tbody>
 </table>
 
-        
+<!-- Modals for Edit / Create -->
 <ProductPropForm @ref="EditModal" prop="@selectedProperty" ButtonText="Save" Title="Edit Property" OnValidSubmit="UpdateProperty"/>
 <ProductPropForm @ref="CreateModal" prop="@newProperty" ButtonText="Create" Title="Create Property" OnValidSubmit="CreateProperty"/>
 }
@@ -50,6 +50,7 @@ else
 @code {
     private ProductPropForm EditModal { get; set; }
     private ProductPropForm CreateModal { get; set; }
+
     private ProductProperty[]? productProperties;
     private ProductProperty selectedProperty = new ProductProperty();
     private ProductProperty newProperty = new ProductProperty();

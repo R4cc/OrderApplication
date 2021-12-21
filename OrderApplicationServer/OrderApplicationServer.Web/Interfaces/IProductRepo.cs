@@ -4,17 +4,17 @@ namespace OrderApplicationServer.Web.Interfaces
 {
     public interface IProductRepo
     {
-        Task AddPropertyToProduct(ProductProperty property, int productId);
+        Task<IEnumerable<Product>> GetAll();
+        Task<Product> GetProduct(int productId);
         Task CreateProduct(Product product);
         Task CreateProperty(ProductProperty property);
-        Task RemoveProduct(int productId);
-        Task<IEnumerable<Product>> GetAll();
-        Task<IEnumerable<ProductProperty>> GetAllProductProperties();
-        Task<Product> GetProduct(int productId);
-        Task<ProductProperty> GetProductProperty(int productPropertyId);
         Task UpdateProduct(Product product);
-        Task RemovePropertyFromProduct(ProductProperty property, int productId);
         Task UpdateProperty(ProductProperty property);
+        Task RemoveProduct(int productId);
         Task RemoveProperty(ProductProperty property);
+        Task RemovePropertyFromProduct(ProductProperty property, int productId);
+        Task AddPropertyToProduct(ProductProperty property, int productId);
+        Task<IEnumerable<ProductProperty>> GetAllProductProperties();
+        Task<ProductProperty> GetProductProperty(int productPropertyId);
     }
 }

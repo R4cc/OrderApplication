@@ -1,0 +1,20 @@
+﻿@using OrderApplicationServer.Web.Data.Models
+<div class="col-3" style="margin-bottom: 3%">
+    <div class="card @(isSelected ? "border-success" : "")" style="width: 250px; height: 400px;">
+        <img class="card-img-top" src=@product.ImgPath alt="Card image cap" width="200" height="200">
+        <div class="card-body">
+        <h5 class="card-title">@product.Title</h5>
+        <p class="card-text">@(product.Price + "€")</p>
+            <div style="position: absolute; bottom: 0;">
+                <button class="btn btn-success" @onclick="@(() => OnValidSubmit.InvokeAsync(@product.ProductId))">Show Properties</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public bool isSelected { get; set; } = false;
+    [Parameter] public Product product { get; set; }
+    [Parameter] public EventCallback<int> OnValidSubmit { get; set; }
+
+}
