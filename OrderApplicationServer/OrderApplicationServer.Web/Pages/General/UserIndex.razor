@@ -11,8 +11,6 @@
     </Authorizing>
 <Authorized>
 
-
-
 @if(_users is null)
 {
     <p><em>Loading...</em></p>
@@ -196,7 +194,7 @@ Access Denied
 
     private async Task DeleteUser(string id)
     {
-        await _uow.IUserRepo.Delete(id);
+        await _uow.IUserRepo.Remove(id);
         await LoadUsers();
     }
 

@@ -5,11 +5,9 @@ namespace OrderApplicationServer.Web.Interfaces
 {
     public interface IUserRepo
     {
-        Task Create(ApplicationUser user);
-        Task Delete(string Id);
-        Task<ApplicationUser[]> GetAll();
-        Task<UserIndexVM[]> GetAllUserIndexVM();
+        Task<IEnumerable<ApplicationUser>> GetAll();
+        Task<IEnumerable<UserIndexVM>> GetAllUserIndexVM();
         Task<ApplicationUser> GetUser(string Id);
-        Task<ApplicationUser> GetUserByLoginName(string loginname);
+        Task Remove(string Id);
     }
 }
