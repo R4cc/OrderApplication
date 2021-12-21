@@ -137,11 +137,11 @@ else
         _products = (await _uow.IProductRepo.GetAll()).ToArray();
     }
 
-    private async Task LoadPropertiesFromProdId(int id)
+    private async Task LoadPropertiesFromProdId(int productId)
     {
-        _selectedProduct = id;
+        _selectedProduct = productId;
         await LoadAllProperties();
-        _productWithProps = await _uow.IProductRepo.GetProduct(id);
+        _productWithProps = await _uow.IProductRepo.GetProduct(productId);
     }
 
     private async Task LoadAllProperties()
@@ -149,25 +149,30 @@ else
         _availableProdProperties = (await _uow.IProductRepo.GetAllProductProperties()).ToArray();
     }
 
-    private async Task AddPropToProduct(int propId)
+    private async Task AddPropToProduct(int propertyId)
     {
-        var modelToAdd = _availableProdProperties.FirstOrDefault(p => p.ProductPropertyId == propId);
+        var modelToAdd = _availableProdProperties.FirstOrDefault(p => p.ProductPropertyId == propertyId);
         int productId = _productWithProps.ProductId;
 
         await _uow.IProductRepo.AddPropertyToProduct(modelToAdd, productId);
+        await _uow.SaveChangesAsync();
+
         await LoadProducts();
         await LoadPropertiesFromProdId(productId);
     }
 
-    private async Task RemovePropFromProduct(int propId)
+    private async Task RemovePropFromProduct(int propertyId)
     {
-        var modelToRemove = _availableProdProperties.FirstOrDefault(p => p.ProductPropertyId == propId);
+        // Get Property to Remove
+        var modelToRemove = _availableProdProperties.FirstOrDefault(p => p.ProductPropertyId == propertyId);
+
+        // Gets ProductId from currently selected product
         int productId = _productWithProps.ProductId;
 
         await _uow.IProductRepo.RemovePropertyFromProduct(modelToRemove, productId);
+        await _uow.SaveChangesAsync();
 
         await LoadProducts();
         await LoadPropertiesFromProdId(productId);
     }
-
 }

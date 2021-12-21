@@ -7,7 +7,7 @@ namespace OrderApplicationServer.Web.Interfaces
     {
         Task<IEnumerable<ApplicationUser>> GetAll();
         Task<IEnumerable<UserIndexVM>> GetAllUserIndexVM();
-        Task<ApplicationUser> GetUser(string Id);
-        Task Remove(string Id);
+        Task<ApplicationUser> GetUser(string id);
+        Task Remove(string id);
     }
 }

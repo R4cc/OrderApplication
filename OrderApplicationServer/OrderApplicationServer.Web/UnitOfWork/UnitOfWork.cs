@@ -38,9 +38,9 @@ namespace OrderApplicationServer.Web.UnitOfWork
                 return _productRepo = _productRepo ?? new ProductRepo(db);
             }
         }
-        public void SaveChanges()
+        public async Task SaveChangesAsync()
         {
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
 
     }

@@ -6,12 +6,12 @@ namespace OrderApplicationServer.Web.Interfaces
     public interface IOrderRepo
     {
         Task CreateOrder(Order order);
-        Task<Order[]> GetAll();
+        Task<IEnumerable<Order>> GetAll();
         Task<IEnumerable<OrderIndexVM>> GetAllOrderIndexVM();
-        Task<Order> GetOrder(int id);
+        Task<Order> GetOrder(int orderId);
         Task<IEnumerable<OrderPosition>> GetOrderPositionsFromOrderId(int orderId);
-        Task<Order[]> GetOrdersFromUser(string id);
-        Task RemoveOrder(int Id);
+        Task<IEnumerable<Order>> GetOrdersFromUser(string userId);
+        Task RemoveOrder(int orderId);
         Task UpdateOrder(Order order);
     }
 }

@@ -39,7 +39,7 @@ else
 </table>
 
         
-<ProductPropForm @ref="EditModal" prop="@selectedProperty" ButtonText="Save" Title="Edit Property" OnValidSubmit="ModifyProperty"/>
+<ProductPropForm @ref="EditModal" prop="@selectedProperty" ButtonText="Save" Title="Edit Property" OnValidSubmit="UpdateProperty"/>
 <ProductPropForm @ref="CreateModal" prop="@newProperty" ButtonText="Create" Title="Create Property" OnValidSubmit="CreateProperty"/>
 }
 
@@ -77,23 +77,24 @@ else
         CreateModal.Close();
     }
 
-    public async Task ModifyProperty()
+    public async Task UpdateProperty()
     {
         await _uow.IProductRepo.UpdateProperty(selectedProperty);
+        await _uow.SaveChangesAsync();
         await LoadProperties();
     }
 
     public async Task CreateProperty()
     {
         await _uow.IProductRepo.CreateProperty(newProperty);
-        _uow.SaveChanges();
+        await _uow.SaveChangesAsync();
         await LoadProperties();
     }
 
     public async Task RemoveProperty(ProductProperty property)
     {
         await _uow.IProductRepo.RemoveProperty(property);
-        _uow.SaveChanges();
+        await _uow.SaveChangesAsync();
         await LoadProperties();
     }
 }

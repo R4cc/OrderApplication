@@ -17,29 +17,29 @@ namespace OrderApplicationServer.Web.Data.Repositories
             db = _db;
         }
 
-        public async Task<Order[]> GetAll()
+        public async Task<IEnumerable<Order>> GetAll()
         {
-            return await db.Order.ToArrayAsync();
+            return db.Order;
         }
 
         /// <summary>
         /// Gets all Orders from a user
         /// </summary>
-        /// <param name="id">UserID</param>
+        /// <param name="userId">UserID</param>
         /// <returns>All Orders from a given UserID</returns>
-        public async Task<Order[]> GetOrdersFromUser(string id)
+        public async Task<IEnumerable<Order>> GetOrdersFromUser(string userId)
         {
-            return await db.Order.Where(u => u.UserId == id).ToArrayAsync();
+            return db.Order.Where(u => u.UserId == userId);
         }
 
         /// <summary>
         /// Gets single Order by ID
         /// </summary>
-        /// <param name="id">OrderID</param>
+        /// <param name="orderId">OrderID</param>
         /// <returns>returns Single Order</returns>
-        public async Task<Order> GetOrder(int id)
+        public async Task<Order> GetOrder(int orderId)
         {
-            return db.Order.FirstOrDefault(u => u.OrderId == id);
+            return db.Order.FirstOrDefault(u => u.OrderId == orderId);
         }
 
         /// <summary>
@@ -54,10 +54,10 @@ namespace OrderApplicationServer.Web.Data.Repositories
         /// <summary>
         /// Removes order with matching ID
         /// </summary>
-        /// <param name="Id">OrderID from Order to remove</param>
-        public async Task RemoveOrder(int Id)
+        /// <param name="orderId">OrderID from Order to remove</param>
+        public async Task RemoveOrder(int orderId)
         {
-            var order = db.Order.FirstOrDefault(u => u.OrderId == Id);
+            var order = db.Order.FirstOrDefault(u => u.OrderId == orderId);
             db.Order.Remove(order);
         }
 
@@ -94,7 +94,7 @@ namespace OrderApplicationServer.Web.Data.Repositories
         /// <returns>IEnumerable of OrderPositions from OrderID</returns>
         public async Task<IEnumerable<OrderPosition>> GetOrderPositionsFromOrderId(int orderId)
         {
-            return await db.OrderPosition.Where(o => o.OrderId == orderId).ToArrayAsync();
+            return db.OrderPosition.Where(o => o.OrderId == orderId);
         }
     }
 }
