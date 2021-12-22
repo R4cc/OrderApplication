@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using OrderApplicationServer.Web.Data.Models;
+﻿using OrderApplicationServer.Web.Data.Models;
 using OrderApplicationServer.Web.Data.ViewModels;
 using OrderApplicationServer.Web.Interfaces;
 
@@ -76,15 +75,12 @@ namespace OrderApplicationServer.Web.Data.Repositories
         /// <returns>Translated IEnumerable into OrderIndexVM</returns>
         public async Task<IEnumerable<OrderIndexVM>> GetAllOrderIndexVM()
         {
-
-            var orders = db.Order.Select(o => new OrderIndexVM
+            return db.Order.Select(o => new OrderIndexVM
             {
                 OrderId = o.OrderId,
                 UserId = o.UserId,
                 OrderDate = o.OrderDate
-            });
-
-            return await orders.OrderBy(o => o.OrderId).ToArrayAsync();
+            }).OrderBy(o => o.OrderId);
         }
 
         /// <summary>
@@ -95,6 +91,17 @@ namespace OrderApplicationServer.Web.Data.Repositories
         public async Task<IEnumerable<OrderPosition>> GetOrderPositionsFromOrderId(int orderId)
         {
             return db.OrderPosition.Where(o => o.OrderId == orderId);
+        }
+
+        public async Task<IEnumerable<OrderIndexVM>> GetAllOrderIndexVMFromUser(string userId)
+        {
+            return db.Order.Where(o => o.UserId == userId)
+                           .Select(s => new OrderIndexVM
+                           {
+                               UserId = s.UserId,
+                               OrderId = s.OrderId,
+                               OrderDate = s.OrderDate
+                           });
         }
     }
 }

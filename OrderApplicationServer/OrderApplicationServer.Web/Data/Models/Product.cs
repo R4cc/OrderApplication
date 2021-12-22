@@ -8,13 +8,9 @@ namespace OrderApplicationServer.Web.Data.Models
     {
         [Key]
         public int ProductId { get; set; }
-
-        [Required]
+        [StringLength(250, MinimumLength = 2)]
         public string Title { get; set; }
-
-        [Required]
         public decimal Price { get; set; }
-
         public string ImgPath { get; set; }
         public ICollection<ProductProperty>? ProductProperties { get; set; }
     }

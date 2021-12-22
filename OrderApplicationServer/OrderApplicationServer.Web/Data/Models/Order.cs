@@ -8,9 +8,8 @@ namespace OrderApplicationServer.Web.Data.Models
     {
         [Key]
         public int OrderId { get; set; }
-
         public DateTime OrderDate { get; set; }
-        [ForeignKey("User")]
+        //[ForeignKey("User")]
         public string UserId { get; set; }
         public ApplicationUser User { get; set; }
     }

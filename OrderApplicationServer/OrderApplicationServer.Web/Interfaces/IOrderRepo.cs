@@ -13,5 +13,6 @@ namespace OrderApplicationServer.Web.Interfaces
         Task<IEnumerable<Order>> GetOrdersFromUser(string userId);
         Task<IEnumerable<OrderPosition>> GetOrderPositionsFromOrderId(int orderId);
         Task<IEnumerable<OrderIndexVM>> GetAllOrderIndexVM();
+        Task<IEnumerable<OrderIndexVM>> GetAllOrderIndexVMFromUser(string userId);
     }
 }
