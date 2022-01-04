@@ -1,0 +1,101 @@
+﻿@using OrderApplicationServer.Web.Data.Models
+@using OrderApplicationServer.Web.Data.ViewModels
+@using OrderApplicationServer.Web.Interfaces
+@inject IUnitOfWork _uow
+@page "/orders"
+
+
+@if(_orders is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <!-- User List -->
+    <div>
+        <h3>Orders</h3>
+        <br/>
+        <div>
+            <button @onclick="LoadOrders" class="oi oi-reload btn btn-primary"/>
+        </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>User</th>
+                        <th>Order Date</th>
+                        <th>Controls</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var item in _orders)
+                    {
+                        <!-- make selected table row green-->
+                        <tr class="@(item.OrderId == _selectedOrder ? "table-success" : "")">
+                            <td>@item.OrderId</td>
+                            <td>@item.UserFullName</td>
+                            <td>@item.OrderDate</td>
+                            <td><button class="btn btn-success" @onclick="() => LoadOrderPositionsFromOrderId(item.OrderId)">Load Positions</button></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        @if(_orderPositions is not null)
+        {
+            <!-- Order Positions from selected Order -->
+            <div>
+                <br/>
+                <h3>Order Positions</h3>
+                <br/>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Position ID</th>
+                            <th>Product ID</th>
+                            <th>Item Amount</th>
+                            <th>Price Per Item</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(var pos in _orderPositions)
+                        { 
+                            <tr>
+                                <td>@pos.OrderPositionId</td>
+                                <td>@pos.ProductId</td>
+                                <td>@pos.Amount</td>
+                                <td>@(pos.Price + "€")</td>
+                                <td>@(pos.Price * pos.Amount)€</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+}
+
+@code {
+    private OrderIndexVM[] _orders;
+    private OrderPosition[] _orderPositions;
+    private int _selectedOrder;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadOrders();
+    }
+
+    private async Task LoadOrders()
+    {
+        _orders = (await _uow.IOrderRepo.GetAllOrderIndexVM()).ToArray();
+    }
+
+    private async Task LoadOrderPositionsFromOrderId(int orderId)
+    {
+        _selectedOrder = orderId;
+        _orderPositions = (await _uow.IOrderRepo.GetOrderPositionsFromOrderId(orderId)).ToArray();
+    }
+
+
+}
