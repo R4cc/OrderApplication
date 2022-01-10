@@ -11,7 +11,7 @@ public class CultureController : Controller
             HttpContext.Response.Cookies.Append(
                 CookieRequestCultureProvider.DefaultCookieName,
                 CookieRequestCultureProvider.MakeCookieValue(
-                    new RequestCulture(culture, culture)));
+                    new RequestCulture(culture, culture)), new CookieOptions { Expires = DateTime.MaxValue });
         }
 
         return LocalRedirect(redirectUri);
