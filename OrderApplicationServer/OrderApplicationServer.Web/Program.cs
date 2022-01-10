@@ -21,7 +21,13 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<ApplicationUser>>();
 
+// Other services
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+
+// Localisation
+builder.Services.AddLocalization();
+builder.Services.AddControllers();
+
 
 var app = builder.Build();
 
@@ -42,6 +48,17 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.MapControllers();
+var supportedCultures = new[] { "en-US", "de-DE", "es-ES" };
+var localizationOptions = new RequestLocalizationOptions()
+    .SetDefaultCulture(supportedCultures[0])
+    .AddSupportedCultures(supportedCultures)
+    .AddSupportedUICultures(supportedCultures);
+
+app.UseRequestLocalization(localizationOptions);
+
+
 
 app.UseAuthentication();
 app.UseAuthorization();

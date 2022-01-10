@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using System.Globalization
 
 <PageTitle>Index</PageTitle>
 
@@ -7,4 +8,18 @@
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
-d
+
+<hr/>
+<h1>CULTURE TEST</h1>
+<h3>Current Culture: </h3> @CultureInfo.CurrentCulture
+
+<ul>
+    <li><label><b>Date:</b> <input @bind="dt" /></label></li>
+    <li><label><b>Number:</b> <input @bind="number" /></label></li>
+</ul>
+
+@code
+{
+    private DateTime dt = DateTime.Now;
+    private double number = 1999.69;
+}

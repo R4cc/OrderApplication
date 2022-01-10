@@ -1,4 +1,5 @@
 ﻿@inherits LayoutComponentBase
+@using OrderApplicationServer.Web.Pages.Shared
 
 <PageTitle>eShop</PageTitle>
 
@@ -9,6 +10,7 @@
 
     <main>
         <div class="top-row px-4 auth">
+            <CultureSelector/>
             <LoginDisplay />
             <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
         </div>
