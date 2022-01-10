@@ -6,13 +6,11 @@
 
 <h1>@Localizer["Greeting"]</h1>
 
-Welcome to your new app.
-
-<SurveyPrompt Title="How is Blazor working for you?" />
+@Localizer["Summary"]
 
 <hr/>
 <h1>CULTURE TEST</h1>
-<h3>Current Culture: </h3> @CultureInfo.CurrentCulture
+<h3>Current Culture: @CultureInfo.CurrentCulture</h3> 
 
 <ul>
     <li><label><b>Date:</b> <input @bind="dt" /></label></li>

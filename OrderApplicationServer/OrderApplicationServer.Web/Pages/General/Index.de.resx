@@ -120,4 +120,7 @@
   <data name="Greeting" xml:space="preserve">
     <value>Hallo</value>
   </data>
+  <data name="Summary" xml:space="preserve">
+    <value>Wilkommen zu deiner Bestell Applikation</value>
+  </data>
 </root>

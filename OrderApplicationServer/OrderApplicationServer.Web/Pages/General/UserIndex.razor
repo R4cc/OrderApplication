@@ -40,7 +40,7 @@ else
                     @foreach(var item in _users)
                     {
                         <!-- make selected table row green-->
-                            <tr class="@(item.UserId == _selectedUser ? "table-success" : "")table-success">
+                            <tr class="@(item.UserId == _selectedUser ? "table-success" : "")">
                                 <td>@item.UserId</td>
                                 <td>@item.FullName</td>
                                 <td>@item.LoginName</td>
