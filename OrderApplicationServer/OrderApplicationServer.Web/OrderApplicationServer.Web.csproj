@@ -29,6 +29,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Pages\General\Index.de.resx" />
+    <Content Include="Pages\General\Index.resx" />
+    <Content Include="Pages\General\UserIndex.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="Pages\Shared\ProductPropForm.razor" />
   </ItemGroup>
 
