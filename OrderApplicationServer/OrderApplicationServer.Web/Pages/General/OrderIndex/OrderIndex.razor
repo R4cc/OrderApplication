@@ -17,6 +17,7 @@ else
         <br/>
         <div>
             <button @onclick="LoadOrders" class="oi oi-reload btn btn-primary"/>
+            <button @onclick="CreateNewOrder" class="oi oi-plus btn btn-primary"/>
         </div>
             <table class="table">
                 <thead>
@@ -95,6 +96,11 @@ else
     {
         _selectedOrder = orderId;
         _orderPositions = (await _uow.IOrderRepo.GetOrderPositionsFromOrderId(orderId)).ToArray();
+    }
+
+    private async Task CreateNewOrder()
+    {
+        
     }
 
 

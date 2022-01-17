@@ -117,22 +117,55 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AvailableProdProperties" xml:space="preserve">
-    <value>Verfügbare Produkt Eigenschaften </value>
+  <data name="BodyTitle" xml:space="preserve">
+    <value>User</value>
   </data>
-  <data name="MainpageTitle" xml:space="preserve">
-    <value>Produkte</value>
+  <data name="OrderPosTableHeader" xml:space="preserve">
+    <value>Order Positions</value>
   </data>
-  <data name="SubPageTitle" xml:space="preserve">
-    <value>Produkt Eigenschaften</value>
+  <data name="OrderPosTableItemAmount" xml:space="preserve">
+    <value>Item Amount</value>
+  </data>
+  <data name="OrderPosTablePosId" xml:space="preserve">
+    <value>PositionId</value>
+  </data>
+  <data name="OrderPosTablePricePerItem" xml:space="preserve">
+    <value>Price Per Item</value>
+  </data>
+  <data name="OrderPosTableProductId" xml:space="preserve">
+    <value>Product Id</value>
+  </data>
+  <data name="OrderPosTableTotal" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="OrderTableControls" xml:space="preserve">
+    <value>Controls</value>
+  </data>
+  <data name="OrderTableDate" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="OrderTableHeader" xml:space="preserve">
+    <value>Orders</value>
+  </data>
+  <data name="OrderTableLoadPositions" xml:space="preserve">
+    <value>Load positions</value>
+  </data>
+  <data name="PageTitle" xml:space="preserve">
+    <value>Administer User</value>
   </data>
   <data name="TableControls" xml:space="preserve">
-    <value>Einstellungen</value>
+    <value>Controls</value>
   </data>
-  <data name="TableNote" xml:space="preserve">
-    <value>Notiz</value>
+  <data name="TableDelete" xml:space="preserve">
+    <value>Delete</value>
   </data>
-  <data name="TableTitle" xml:space="preserve">
-    <value>Titel</value>
+  <data name="TableLoadOrders" xml:space="preserve">
+    <value>Load Orders</value>
+  </data>
+  <data name="TableLoginName" xml:space="preserve">
+    <value>Login Name</value>
+  </data>
+  <data name="TableName" xml:space="preserve">
+    <value>Full Name</value>
   </data>
 </root>

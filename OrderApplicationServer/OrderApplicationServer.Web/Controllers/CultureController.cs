@@ -6,7 +6,7 @@ public class CultureController : Controller
 {
     public IActionResult Set(string culture, string redirectUri)
     {
-        if (culture != null)
+        if (culture is not null)
         {
             HttpContext.Response.Cookies.Append(
                 CookieRequestCultureProvider.DefaultCookieName,

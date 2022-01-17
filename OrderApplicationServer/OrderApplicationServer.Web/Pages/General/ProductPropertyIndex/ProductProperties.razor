@@ -1,7 +1,6 @@
 ﻿@page "/productproperties"
 @using OrderApplicationServer.Web.Data.Models
 @using OrderApplicationServer.Web.Interfaces
-@using OrderApplicationServer.Web.Pages.Shared
 @inject IUnitOfWork _uow
 
 <PageTitle>Product Properties</PageTitle>
@@ -40,8 +39,8 @@ else
 </table>
 
 <!-- Modals for Edit / Create -->
-<ProductPropForm @ref="EditModal" prop="@selectedProperty" ButtonText="Save" Title="Edit Property" OnValidSubmit="UpdateProperty"/>
-<ProductPropForm @ref="CreateModal" prop="@newProperty" ButtonText="Create" Title="Create Property" OnValidSubmit="CreateProperty"/>
+<ProductPropertyModal @ref="EditModal" prop="@selectedProperty" ButtonText="Save" Title="Edit Property" OnValidSubmit="UpdateProperty"/>
+<ProductPropertyModal @ref="CreateModal" prop="@newProperty" ButtonText="Create" Title="Create Property" OnValidSubmit="CreateProperty"/>
 }
 
  
@@ -49,8 +48,8 @@ else
 
 
 @code {
-    private ProductPropForm EditModal { get; set; }
-    private ProductPropForm CreateModal { get; set; }
+    private ProductPropertyModal EditModal { get; set; }
+    private ProductPropertyModal CreateModal { get; set; }
 
     private ProductProperty[]? productProperties;
     private ProductProperty selectedProperty = new ProductProperty();

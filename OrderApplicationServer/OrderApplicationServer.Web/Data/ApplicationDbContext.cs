@@ -113,7 +113,7 @@ namespace OrderApplicationServer.Web.Data
             var product3 = new Product { ProductId = 3, Title = "Muppet Screams", Price = 14.99m, ImgPath = "/Images/img3.jpg" };
             var product4 = new Product { ProductId = 4, Title = "Pre-Cracked Egg", Price = 2.50m, ImgPath = "/Images/img4.jpg" };
             var product5 = new Product { ProductId = 5, Title = "Shaq O'Neal's Pregnancy Test", Price = 12m, ImgPath = "/Images/img5.jpg" };
-            var product6 = new Product { ProductId = 6, Title = "Defenetry-Not SNOOPY", Price = 4.99m, ImgPath = "/Images/img6.jpg" };
+            var product6 = new Product { ProductId = 6, Title = "Definitly-Not SNOOPY", Price = 4.99m, ImgPath = "/Images/img6.jpg" };
             var product7 = new Product { ProductId = 7, Title = "Weird Dogs", Price = 4.99m, ImgPath = "/Images/img7.jpg" };
 
             modelBuilder.Entity<Product>().HasData(product1);

@@ -118,21 +118,24 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AvailableProdProperties" xml:space="preserve">
-    <value>Available Product Properties</value>
+    <value>Verfügbare Produkt Eigenschaften </value>
+  </data>
+  <data name="ButtonText" xml:space="preserve">
+    <value>Eigenschaften anzeigen</value>
   </data>
   <data name="MainpageTitle" xml:space="preserve">
-    <value>Products</value>
+    <value>Produkte</value>
   </data>
   <data name="SubPageTitle" xml:space="preserve">
-    <value>Title</value>
+    <value>Produkt Eigenschaften</value>
   </data>
   <data name="TableControls" xml:space="preserve">
-    <value>Controls</value>
+    <value>Einstellungen</value>
   </data>
   <data name="TableNote" xml:space="preserve">
-    <value>Notes</value>
+    <value>Notiz</value>
   </data>
   <data name="TableTitle" xml:space="preserve">
-    <value>Title</value>
+    <value>Titel</value>
   </data>
 </root>

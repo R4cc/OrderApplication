@@ -4,8 +4,9 @@
 @using OrderApplicationServer.Web.Interfaces
 @inject NavigationManager NavManager
 @inject IUnitOfWork _uow
+@inject IStringLocalizer<UserIndex> Localizer
 
-<PageTitle>Users</PageTitle>
+<PageTitle>@Localizer["PageTitle"]</PageTitle>
 
 <AuthorizeView Roles="Admin">
     <Authorizing>
@@ -21,7 +22,7 @@ else
 {
     <!-- User List -->
     <div>
-        <h3>Users</h3>
+        <h3>@Localizer["BodyTitle"]</h3>
         <br/>
         <div>
             <button @onclick="NavToRegisterUserView" class="oi oi-plus btn btn-primary"/>
@@ -31,9 +32,9 @@ else
                 <thead>
                     <tr>
                         <th>Id</th>
-                        <th><a class="link-primary" @onclick="OrderByName">Name</a></th>
-                        <th>Login Name</th>
-                        <th>Controls</th>
+                        <th><a class="link-primary" @onclick="OrderByName">@Localizer["TableName"]</a></th>
+                        <th>@Localizer["TableLoginName"]</th>
+                        <th>@Localizer["TableControls"]</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -44,8 +45,8 @@ else
                                 <td>@item.UserId</td>
                                 <td>@item.FullName</td>
                                 <td>@item.LoginName</td>
-                                <td><button class="btn btn-success" @onclick="() => Load10OrdersFromUser(item.UserId)">Load Orders</button>
-                                <button class="btn btn-danger" @onclick="() => RemoveUser(item.UserId)">Delete</button></td>
+                                <td><button class="btn btn-success" @onclick="() => Load10OrdersFromUser(item.UserId)">@Localizer["TableLoadOrders"]</button>
+                                <button class="btn btn-danger" @onclick="() => RemoveUser(item.UserId)">@Localizer["TableDelete"]</button></td>
                             </tr>
                     }
                 </tbody>
@@ -57,37 +58,25 @@ else
     {
     <div>
         <br/>
-        <h3>Orders</h3>
+        <h3>@Localizer["OrderTableHeader"]</h3>
         <br/>
         <table class="table">
             <thead>
                 <tr>
-                    <th>Nr</th>
-                    <th>Date</th>
-                    <th>Controls</th>
+                    <th>Id</th>
+                    <th>@Localizer["OrderTableDate"]</th>
+                    <th>@Localizer["OrderTableControls"]</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach(var item in _orders)
                 {
                     <!-- make selected table row green-->
-                    @if(item.OrderId == _selectedOrder)
-                    {
-                        <tr class="table-success">
-                            <td>@item.OrderId</td>
-                            <td>@item.OrderDate</td>
-                            <td><button class="btn btn-success" @onclick="() => LoadOrderPostitionFromOrderId(item.OrderId)">Load Orderpositions</button></td>
-                        </tr>
-                    }
-                    else
-                    {
-                        <tr>
-                            <td>@item.OrderId</td>
-                            <td>@item.OrderDate</td>
-                            <td><button class="btn btn-success" @onclick="() => LoadOrderPostitionFromOrderId(item.OrderId)">Load Orderpositions</button></td>
-                        </tr>
-                    }
-
+                    <tr class="@(item.OrderId == _selectedOrder ? "table-success" : "")">
+                        <td>@item.OrderId</td>
+                        <td>@item.OrderDate</td>
+                        <td><button class="btn btn-success" @onclick="() => LoadOrderPostitionFromOrderId(item.OrderId)">@Localizer["OrderTableLoadPositions"]</button></td>
+                    </tr>
                 }
             </tbody>
         </table>
@@ -98,16 +87,16 @@ else
             <!-- Order Positions from selected Order -->
             <div>
                 <br/>
-                <h3>Order Positions</h3>
+                <h3>@Localizer["OrderPosTableHeader"]</h3>
                 <br/>
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Position ID</th>
-                            <th>Product ID</th>
-                            <th>Item Amount</th>
-                            <th>Price Per Item</th>
-                            <th>Total</th>
+                            <th>@Localizer["OrderPosTablePosId"]</th>
+                            <th>@Localizer["OrderPosTableProductId"]</th>
+                            <th>@Localizer["OrderPosTableItemAmount"]</th>
+                            <th>@Localizer["OrderPosTablePricePerItem"]</th>
+                            <th>@Localizer["OrderPosTableTotal"]</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -189,6 +178,6 @@ Access Denied
 
     private void NavToRegisterUserView()
     {
-        NavManager.NavigateTo("register");
+        NavManager.NavigateTo("Identity/Account/Register");
     }
 }

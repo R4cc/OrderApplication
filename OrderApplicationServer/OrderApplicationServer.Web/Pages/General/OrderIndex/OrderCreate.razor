@@ -1,0 +1,89 @@
+﻿@using OrderApplicationServer.Web.Data.Models
+@using OrderApplicationServer.Web.Data.ViewModels
+@using OrderApplicationServer.Web.Interfaces
+@inject IUnitOfWork _uow
+
+<h3>Create an Order</h3>
+
+<form>
+    <div>
+        <label>User</label>
+        <Select class="form-select" T="string" items="_users.Select(u => new SelectVM<string>{
+            Id = u.UserId,
+            DisplayMember = u.FullName
+        })" OnValidSubmit="SetSelectedUser"/>
+    </div>
+    @foreach(var pos in _orderPositions)
+    {
+        <hr/>
+        <div>
+            <label>Product</label>
+            <select class="form-select" @bind=pos.Product>
+                @foreach(var prod in _products)
+                {
+                    <option>@prod.Title</option>
+                }
+            </select>
+        </div>
+        <div>
+            <label>Quantity</label>
+            <input type="number" @bind=pos.Amount/>
+        </div>
+        <div>
+            <label>Price</label>
+            <input disabled="disabled" value="@pos.Amount*pos.Product.Price"/>
+        </div>
+        <hr/>
+        
+    }
+    <div>
+        <button class="btn btn-primary">Add Position</button>
+    </div>
+    <button type="submit">Create Order</button>
+    
+</form>
+
+
+@code {
+
+    private Order _order = new();
+    private List<OrderPosition> _orderPositions;
+
+    private Product[] _products;
+    private UserIndexVM[] _users;
+    private string _selectedUserId;
+
+    private OrderPosition LastPos;
+    private int LastPosToAdd;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetAllProducts();
+    }
+
+    private async Task GetAllProducts()
+    {
+        _products = (await _uow.IProductRepo.GetAll()).ToArray();
+    }
+
+    private async Task CreateOrder()
+    {
+
+    }
+
+    private async Task AddOrderPosition()
+    {
+        _orderPositions.Add(new OrderPosition{});
+    }
+
+    private async Task LoadAllUsers()
+    {
+        _users = (await _uow.IUserRepo.GetAllUserIndexVM()).ToArray();
+    }
+
+    private async Task SetSelectedUser(string Id)
+    {
+        _selectedUserId = Id;
+    }
+
+}

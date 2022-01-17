@@ -29,13 +29,27 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Pages\General\Index.de.resx" />
-    <Content Include="Pages\General\Index.resx" />
-    <Content Include="Pages\General\UserIndex.resx" />
+    <Content Include="Pages\General\Index\Index.de.resx" />
+    <Content Include="Pages\General\Index\Index.resx" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Pages\Shared\ProductPropForm.razor" />
+    <None Include="Pages\Shared\Components\ProductPropertyModal.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Data\Models\ProductPropertyResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ProductPropertyResource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Data\Models\ProductPropertyResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ProductPropertyResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

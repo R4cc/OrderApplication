@@ -93,8 +93,6 @@ namespace OrderApplicationServer.Web.Data.Repositories
             var prod = await GetProduct(ProductId);
             prod.ProductProperties.Add(property);
             _db.Update(prod);
-            // This doesnt work if done in UOW for some reason
-            //await _db.SaveChangesAsync();
         }
 
         /// <summary>
@@ -109,9 +107,6 @@ namespace OrderApplicationServer.Web.Data.Repositories
             var propertyToRemove = await GetProductProperty(property.ProductPropertyId);
             prod.ProductProperties.Remove(propertyToRemove);
             _db.Update(prod);
-
-            // This doesnt work if done in UOW for some reason
-            //await _db.SaveChangesAsync();
         }
 
         public async Task CreateProperty(ProductProperty property)

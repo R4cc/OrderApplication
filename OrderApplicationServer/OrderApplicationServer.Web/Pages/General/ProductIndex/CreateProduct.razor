@@ -1,0 +1,35 @@
+﻿@page "/createproduct"
+@using OrderApplicationServer.Web.Data.Models
+@using OrderApplicationServer.Web.Interfaces
+@inject IUnitOfWork _uow
+
+<h3>Create a Product</h3>
+
+<form>
+    <DataAnnotationsValidator/>
+    <ValidationSummary></ValidationSummary>
+    <div>
+        <label>Title</label>
+        <InputText type="text" @bind-value=_product.Title/>
+    </div>
+    <div>
+        <label>Price</label>
+        <InputText type="number" @bind-value=_product.Price/>
+    </div>
+    <div>
+        <label>ImgPath</label>
+        <InputText type="text" @bind-value=_product.ImgPath/>
+    </div>
+    <button type="submit" class="btn btn-primary" @onclick="Create">Create Product</button>
+</form>
+
+@code {
+    private Product _product = new Product { };
+
+    private async Task Create()
+    {
+        await _uow.IProductRepo.CreateProduct(_product);
+        await _uow.SaveChangesAsync();
+
+    }
+}

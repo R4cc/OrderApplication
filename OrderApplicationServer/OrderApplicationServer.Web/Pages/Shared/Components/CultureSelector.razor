@@ -3,6 +3,7 @@
 
 <form>
         <select @bind="Culture" class="form-select">
+            <option selected>Languages</option>
             @foreach (var culture in supportedCultures)
             {
                 <option value="@culture">@culture.DisplayName</option>
@@ -18,7 +19,6 @@
     {
         new CultureInfo("en-US"),
         new CultureInfo("de-DE"),
-        new CultureInfo("es-ES"),
     };
 
     protected override void OnInitialized()

@@ -2,7 +2,7 @@
 @using OrderApplicationServer.Web.Data.Models
 @using OrderApplicationServer.Web.Data.ViewModels
 @using OrderApplicationServer.Web.Interfaces
-@using OrderApplicationServer.Web.Pages.Shared
+@inject NavigationManager NavManager
 @inject IUnitOfWork _uow
 @inject IStringLocalizer<ProductIndex> Localizer
 
@@ -20,21 +20,28 @@
 }
 else
 {
+            <Select OnValidSubmit="SetSelectedSelectProduct" T="int" items=@_products.Select(o => new SelectVM<int> {
+            Id = o.ProductId,
+            DisplayMember = o.Title
+        })></Select>
+
+        <label>@_tempSelectProduct</label>
 
     <div class="container">
         <div class="row justify-content-md-left">
         <h3>@Localizer["MainpageTitle"]</h3>
+        <button class="btn btn-primary oi oi-plus" @onclick="CreateProduct"/>
         <hr/>
 
             @foreach(var product in _products)
             {
                 @if(product.ProductId == _selectedProduct)
                 {
-                    <ProductCard OnValidSubmit="LoadPropertiesFromProdId" isSelected="true" product=product/>
+                    <ProductCard OnValidSubmit="LoadPropertiesFromProdId" isSelected="true" product=product buttonText="@Localizer["ButtonText"]"/>
                 }
                 else
                 {
-                    <ProductCard OnValidSubmit="LoadPropertiesFromProdId" isSelected="false" product=product/>
+                    <ProductCard OnValidSubmit="LoadPropertiesFromProdId" isSelected="false" product=product buttonText="@Localizer["ButtonText"]"/>
                 }
             }
         </div>
@@ -98,6 +105,8 @@ else
             </divs>
             </div>
         </div>
+
+
     }
 }
 
@@ -113,10 +122,16 @@ else
     private Product? _productWithProps;
     private ProductProperty[]? _availableProdProperties;
     private int _selectedProduct;
+    private int _tempSelectProduct;
 
     protected async override Task OnInitializedAsync()
     {
         await LoadProducts();
+    }
+
+    private async Task SetSelectedSelectProduct(int id)
+    {
+        _tempSelectProduct = id;
     }
 
     private async Task LoadProducts()
@@ -161,5 +176,10 @@ else
 
         await LoadProducts();
         await LoadPropertiesFromProdId(productId);
+    }
+
+    private async Task CreateProduct()
+    {
+        NavManager.NavigateTo("createproduct");
     }
 }

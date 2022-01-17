@@ -1,0 +1,14 @@
+﻿@using OrderApplicationServer.Web.Data.Models
+@typeparam T
+
+<select name="select" @onchange="@(e => OnValidSubmit.InvokeAsync((T)Convert.ChangeType(e.Value, typeof(T))))" class="form-select">
+    @foreach(var item in items)
+    {
+        <option value="@item.Id">@item.DisplayMember</option>
+    }
+</select>
+
+@code {
+    [Parameter] public IEnumerable<SelectVM<T>> items { get; set; }
+    [Parameter] public EventCallback<T> OnValidSubmit { get; set; }
+}
