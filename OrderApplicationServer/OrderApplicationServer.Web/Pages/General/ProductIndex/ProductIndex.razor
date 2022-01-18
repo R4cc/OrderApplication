@@ -20,7 +20,7 @@
 }
 else
 {
-            <Select OnValidSubmit="SetSelectedSelectProduct" T="int" items=@_products.Select(o => new SelectVM<int> {
+            <Select OnValidSubmit="SetSelectedSelectProduct" T="int" Items=@_products.Select(o => new SelectVM<int> {
             Id = o.ProductId,
             DisplayMember = o.Title
         })></Select>
