@@ -16,6 +16,10 @@ namespace OrderApplicationServer.Web.Data.Repositories
             db = _db;
         }
 
+        /// <summary>
+        /// Returns all Orders
+        /// </summary>
+        /// <returns>IEnumerable of Order (all orders)</returns>
         public async Task<IEnumerable<Order>> GetAll()
         {
             return db.Order;
@@ -93,15 +97,20 @@ namespace OrderApplicationServer.Web.Data.Repositories
             return db.OrderPosition.Where(o => o.OrderId == orderId);
         }
 
+        /// <summary>
+        /// Returns all Orders (as viewmodel) from a given userID
+        /// </summary>
+        /// <param name="userId">User ID</param>
+        /// <returns>IEnumerable of Order View Model from UserID</returns>
         public async Task<IEnumerable<OrderIndexVM>> GetAllOrderIndexVMFromUser(string userId)
         {
             return db.Order.Where(o => o.UserId == userId)
-                           .Select(s => new OrderIndexVM
-                           {
-                               UserId = s.UserId,
-                               OrderId = s.OrderId,
-                               OrderDate = s.OrderDate
-                           });
+                        .Select(s => new OrderIndexVM
+                        {
+                            UserId = s.UserId,
+                            OrderId = s.OrderId,
+                            OrderDate = s.OrderDate
+                        });
         }
     }
 }

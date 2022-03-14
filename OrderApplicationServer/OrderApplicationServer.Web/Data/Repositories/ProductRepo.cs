@@ -109,16 +109,28 @@ namespace OrderApplicationServer.Web.Data.Repositories
             _db.Update(prod);
         }
 
+        /// <summary>
+        /// Adds ProductProperty to DB
+        /// </summary>
+        /// <param name="property">ProductProperty</param>
         public async Task CreateProperty(ProductProperty property)
         {
             _db.Add(property);
         }
 
+        /// <summary>
+        /// Updates ProductProperty in DB
+        /// </summary>
+        /// <param name="property">ProductProperty to update</param>
         public async Task UpdateProperty(ProductProperty property)
         {
             _db.Update(property);
         }
 
+        /// <summary>
+        /// Removes a ProductProperty from DB
+        /// </summary>
+        /// <param name="property">ProductProperty to remove</param>
         public async Task RemoveProperty(ProductProperty property)
         {
             _db.Remove(property);

@@ -58,8 +58,6 @@ var localizationOptions = new RequestLocalizationOptions()
 
 app.UseRequestLocalization(localizationOptions);
 
-
-
 app.UseAuthentication();
 app.UseAuthorization();
 

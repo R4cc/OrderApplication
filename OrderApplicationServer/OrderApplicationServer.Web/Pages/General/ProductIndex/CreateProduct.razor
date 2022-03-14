@@ -1,35 +1,37 @@
 ﻿@page "/createproduct"
 @using OrderApplicationServer.Web.Data.Models
 @using OrderApplicationServer.Web.Interfaces
+@using System.Linq.Expressions
 @inject IUnitOfWork _uow
+@inject NavigationManager NavManager
 
 <h3>Create a Product</h3>
 
-<form>
+<EditForm Model="@_product">
     <DataAnnotationsValidator/>
     <ValidationSummary></ValidationSummary>
     <div>
         <label>Title</label>
-        <InputText type="text" @bind-value=_product.Title/>
+        <InputText type="text" @bind-value=@_product.Title/>
     </div>
     <div>
         <label>Price</label>
-        <InputText type="number" @bind-value=_product.Price/>
+        <InputText type="number" @bind-value=@_product.Price/>
     </div>
     <div>
         <label>ImgPath</label>
-        <InputText type="text" @bind-value=_product.ImgPath/>
+        <InputText type="text" @bind-value=@_product.ImgPath/>
     </div>
     <button type="submit" class="btn btn-primary" @onclick="Create">Create Product</button>
-</form>
+</EditForm>
 
 @code {
     private Product _product = new Product { };
+    public Expression<Func<string >> ValueExpression { get; set; }       
 
     private async Task Create()
     {
         await _uow.IProductRepo.CreateProduct(_product);
         await _uow.SaveChangesAsync();
-
     }
 }
